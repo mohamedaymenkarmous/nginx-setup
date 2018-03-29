@@ -148,6 +148,9 @@ sudo ./configure \
 sudo make modules
 sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules
 
+#http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
+#https://www.techrepublic.com/article/how-to-install-and-enable-modsecurity-with-nginx-on-ubuntu-server/
+
 apt install php-fpm
 mkdir -p /var/www/public
 echo hello > /var/www/public/index.html
