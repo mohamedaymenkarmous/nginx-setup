@@ -134,6 +134,14 @@ sudo make install
 sudo mkdir /etc/nginx/modules
 sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules
 
+cd /opt
+sudo git clone https://github.com/mohamedaymenkarmous/nginx-config
+cd /etc/nginx/conf.d/
+sudo git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git
+sudo cp owasp-modsecurity-crs/crs-setup.conf.example owasp-modsecurity-crs/crs-setup.conf
+sudo cp owasp-modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example owasp-modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
+sudo cp owasp-modsecurity-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example owasp-modsecurity-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+
 #http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
 #https://www.techrepublic.com/article/how-to-install-and-enable-modsecurity-with-nginx-on-ubuntu-server/
 
