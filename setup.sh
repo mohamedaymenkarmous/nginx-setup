@@ -149,8 +149,8 @@ sudo make modules
 sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules
 
 apt install php-fpm
-mkdir -p /var/www/me/find/u/can/if/hah
-echo hello > /var/www/me/find/u/can/if/hah/index.html
+mkdir -p /var/www/public
+echo hello > /var/www/public/index.html
 
 apt install php-xml
 apt install php-mysql
