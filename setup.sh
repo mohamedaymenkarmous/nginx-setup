@@ -1,21 +1,14 @@
 sudo apt-get update
 sudo apt-get install git
-sudo apt-get install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev
+sudo apt-get install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev libssl-dev libxslt-dev libgd-dev libgeoip-dev libaio-dev libaio1 checkinstall libperl-dev
 
 #https://gist.github.com/virtualadrian/732e9baf9513f47a78099a051ec5bd25
 apt-get install \
-  build-essential \
   bzip2 \
-  checkinstall \
   devscripts \
   flex \
-  g++ \
-  gcc \
-  git \
   graphicsmagick-imagemagick-compat \
   graphicsmagick-libmagick-dev-compat \
-  libaio-dev \
-  libaio1 \
   libass-dev \
   libatomic-ops-dev \
   libavcodec-dev \
@@ -27,11 +20,8 @@ apt-get install \
   libcdio-cdda1 \
   libcdio-paranoia1 \
   libcdio13 \
-  libcurl4-openssl-dev \
   libfaac-dev \
   libfreetype6-dev \
-  libgd-dev \
-  libgeoip-dev \
   libgeoip1 \
   libgif-dev \
   libgpac-dev \
@@ -48,24 +38,19 @@ apt-get install \
   libpam0g-dev \
   libpcre3 \
   libpcre3-dev \
-  libperl-dev \
   libpng12-dev \
   libpng12-0 \
   libpng12-dev \
   libreadline-dev \
   librtmp-dev \
   libsdl1.2-dev \
-  libssl-dev \
   libssl1.0.0 \
   libswscale-dev \
   libtheora-dev \
   libtiff5-dev \
-  libtool \
   libva-dev \
   libvdpau-dev \
   libvorbis-dev \
-  libxml2-dev \
-  libxslt-dev \
   libxslt1-dev \
   libxslt1.1 \
   libxvidcore-dev \
@@ -97,7 +82,7 @@ sudo wget http://nginx.org/download/nginx-1.12.2.tar.gz
 sudo tar zxvf nginx-1.12.2.tar.gz
 cd nginx-[0-9]*[^a-z]
 sudo ./configure \
-  --add-module=/opt/ModSecurity-nginx \
+  --add-dynamic-module=/opt/ModSecurity-nginx \
   --conf-path=/etc/nginx/nginx.conf \
   --error-log-path=/var/log/nginx/error.log \
   --group=www-data \
@@ -121,7 +106,6 @@ sudo ./configure \
   --with-http_geoip_module \
   --with-http_gunzip_module \
   --with-http_gzip_static_module \
-  --with-http_iconv_module \
   --with-http_image_filter_module \
   --with-http_mp4_module \
   --with-http_perl_module \
@@ -134,8 +118,6 @@ sudo ./configure \
   --with-http_sub_module \
   --with-http_v2_module \
   --with-http_xslt_module \
-  --with-ipv6 \
-  --with-lua51 \
   --with-mail \
   --with-mail_ssl_module \
   --with-pcre-jit \
@@ -143,9 +125,13 @@ sudo ./configure \
   --with-select_module \
   --with-stream \
   --with-stream_ssl_module \
-  --with-threads 
+  --with-threads \
+  --with-compat
 
+sudo make
 sudo make modules
+sudo make install
+sudo mkdir /etc/nginx/modules
 sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules
 
 #http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
