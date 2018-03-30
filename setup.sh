@@ -177,6 +177,13 @@ sudo systemctl restart nginx
 #http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
 #https://www.techrepublic.com/article/how-to-install-and-enable-modsecurity-with-nginx-on-ubuntu-server/
 
+#https://community.letsencrypt.org/t/how-to-completely-automating-certificate-renewals-on-debian/5615
+#https://www.grafikart.fr/formations/serveur-linux/nginx-ssl-letsencrypt
+#https://neurobin.org/docs/web/fully-automated-letsencrypt-integration-with-cpanel/
+#https://www.exratione.com/2016/06/a-simple-setup-and-installation-script-for-lets-encrypt-ssl-certificates/
+#https://gist.github.com/ajaegers/92318bdc81541b825c90f265f787e3c8
+
+
 sudo apt-get install php-fpm
 mkdir -p /var/www/public/standard
 sudo echo hello > /var/www/public/index.html
@@ -186,3 +193,5 @@ sudo echo hello > /var/www/public/index.html
 #apt install mysql-server
 #apt install mysql
 #apt install mysql-client
+
+#https://www.nginx.com/blog/setting-up-nginx-amplify-in-10-minutes/
