@@ -177,6 +177,10 @@ sudo systemctl restart nginx
 #http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
 #https://www.techrepublic.com/article/how-to-install-and-enable-modsecurity-with-nginx-on-ubuntu-server/
 
+sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt --depth=1
+cd /opt/letsencrypt
+sudo git pull
+sudo /opt/letsencrypt/letsencrypt-auto certonly --rsa-key-size 4096 --webroot --webroot-path /var/www/public/ -d ctfsecurrinets.com
 #https://community.letsencrypt.org/t/how-to-completely-automating-certificate-renewals-on-debian/5615
 #https://www.grafikart.fr/formations/serveur-linux/nginx-ssl-letsencrypt
 #https://neurobin.org/docs/web/fully-automated-letsencrypt-integration-with-cpanel/
