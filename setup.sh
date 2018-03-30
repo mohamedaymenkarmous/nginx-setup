@@ -1,5 +1,5 @@
 sudo apt-get update
-sudo apt-get install git
+sudo apt-get install net-tools git
 sudo apt-get install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev libssl-dev libxslt-dev libgd-dev libgeoip-dev libaio-dev libaio1 checkinstall libperl-dev
 
 #https://gist.github.com/virtualadrian/732e9baf9513f47a78099a051ec5bd25
@@ -78,6 +78,13 @@ sudo make
 sudo make install
 cd /opt
 sudo git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git
+
+cd /opt
+sudo git clone https://github.com/mohamedaymenkarmous/nginx-config
+sudo cp nginx-config /etc/nginx
+sudo mkdir /etc/nginx/sites-enabled
+
+cd /opt
 sudo wget http://nginx.org/download/nginx-1.12.2.tar.gz
 sudo tar zxvf nginx-1.12.2.tar.gz
 cd nginx-[0-9]*[^a-z]
@@ -134,13 +141,17 @@ sudo make install
 sudo mkdir /etc/nginx/modules
 sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules
 
-cd /opt
-sudo git clone https://github.com/mohamedaymenkarmous/nginx-config
+
 cd /etc/nginx/conf.d/
 sudo git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git
 sudo cp owasp-modsecurity-crs/crs-setup.conf.example owasp-modsecurity-crs/crs-setup.conf
 sudo cp owasp-modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example owasp-modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
 sudo cp owasp-modsecurity-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example owasp-modsecurity-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+
+sudo cp /opt/ModSecurity/modsecurity.conf-recommended /etc/nginx/conf.d/modsecurity.conf
+sudo sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf
+
+sudo /etc/nginx/conf.d/owasp-modsecurity-crs/util/upgrade.py --crs
 
 #http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
 #https://www.techrepublic.com/article/how-to-install-and-enable-modsecurity-with-nginx-on-ubuntu-server/
@@ -149,8 +160,8 @@ apt install php-fpm
 mkdir -p /var/www/public
 echo hello > /var/www/public/index.html
 
-apt install php-xml
-apt install php-mysql
-apt install mysql-server
-apt install mysql
-apt install mysql-client
+#apt install php-xml
+#apt install php-mysql
+#apt install mysql-server
+#apt install mysql
+#apt install mysql-client
