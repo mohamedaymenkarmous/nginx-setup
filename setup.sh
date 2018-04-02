@@ -1,4 +1,4 @@
-current_dir=$(pwd)
+current_dir=/root
 
 sudo apt-get update
 sudo apt-get install -y net-tools git
