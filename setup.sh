@@ -1,7 +1,7 @@
 current_dir=$(pwd)
 
 sudo apt-get update
-sudo apt-get install net-tools git
+sudo apt-get install -y net-tools git
 sudo apt-get install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev libssl-dev libxslt-dev libgd-dev libgeoip-dev libaio-dev libaio1 checkinstall libperl-dev
 
 #https://gist.github.com/virtualadrian/732e9baf9513f47a78099a051ec5bd25
@@ -188,7 +188,7 @@ sudo /opt/letsencrypt/letsencrypt-auto certonly --rsa-key-size 4096 --webroot --
 #https://gist.github.com/ajaegers/92318bdc81541b825c90f265f787e3c8
 
 
-sudo apt-get install php-fpm
+sudo apt-get install -y php-fpm
 mkdir -p /var/www/public/standard
 sudo echo hello > /var/www/public/index.html
 
