@@ -1,7 +1,7 @@
 current_dir=/root
 
 sudo apt-get update
-sudo apt-get install -y net-tools git
+sudo apt-get install -y net-tools git systemd python
 sudo apt-get install -y dialog apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev libssl-dev libxslt-dev libgd-dev libgeoip-dev libaio-dev libaio1 checkinstall libperl-dev
 
 #https://gist.github.com/virtualadrian/732e9baf9513f47a78099a051ec5bd25
@@ -83,7 +83,8 @@ sudo git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git
 
 cd /opt
 sudo git clone https://github.com/mohamedaymenkarmous/nginx-config
-sudo cp nginx-config /etc/nginx
+[[ -d "/etc/nginx" ]] && mv /etc/nginx /etc/nginx-$(date +%s).bak
+sudo cp -R nginx-config /etc/nginx
 sudo mkdir /etc/nginx/sites-enabled
 sudo ln -s /etc/nginx/sites-available/standard /etc/nginx/sites-enabled/standard
 
@@ -148,11 +149,16 @@ sudo make install
 sudo mkdir /etc/nginx/modules
 sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules
 # Load ModSecurity dynamic module in Nginx configuration file
-sudo sed -i 's/#load_module modules/ngx_http_modsecurity_module.so/load_module modules/ngx_http_modsecurity_module.so/' /etc/nginx/nginx.conf
+sudo sed -i 's@#load_module modules/ngx_http_modsecurity_module.so@load_module modules/ngx_http_modsecurity_module.so@' /etc/nginx/nginx.conf
 
 # Enable Nginx as a service in each reboot
 sudo mv ${current_dir}/nginx.service /lib/systemd/system/nginx.service
 sudo systemctl daemon-reload
+sudo wget http://library.linode.com/assets/660-init-deb.sh -P /opt
+sudo mv /opt/660-init-deb.sh /etc/init.d/nginx
+sudo chmod +x /etc/init.d/nginx
+sudo /usr/sbin/update-rc.d -f nginx defaults
+sudo service nginx restart
 
 # Enable OWASP ModSecurity rules
 cd /etc/nginx/conf.d/
