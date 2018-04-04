@@ -1,7 +1,7 @@
 current_dir=/root
 
 sudo apt-get update
-sudo apt-get install -y net-tools git systemd python
+sudo apt-get install -y net-tools git systemd python vim
 sudo apt-get install -y dialog apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev libssl-dev libxslt-dev libgd-dev libgeoip-dev libaio-dev libaio1 checkinstall libperl-dev
 
 #https://gist.github.com/virtualadrian/732e9baf9513f47a78099a051ec5bd25
@@ -154,7 +154,7 @@ sudo sed -i 's@#load_module modules/ngx_http_modsecurity_module.so@load_module m
 # Enable Nginx as a service in each reboot
 sudo mv ${current_dir}/nginx.service /lib/systemd/system/nginx.service
 sudo systemctl daemon-reload
-sudo wget http://library.linode.com/assets/660-init-deb.sh -P /opt
+sudo wget https://www.linode.com/docs/assets/660-init-deb.sh -P /opt
 sudo mv /opt/660-init-deb.sh /etc/init.d/nginx
 sudo chmod +x /etc/init.d/nginx
 sudo /usr/sbin/update-rc.d -f nginx defaults
@@ -178,7 +178,7 @@ sudo /etc/nginx/conf.d/owasp-modsecurity-crs/util/upgrade.py --crs
 #sudo sed -i 's/#modsecurity on/modsecurity on/' /etc/nginx/sites-enabled/standard
 
 # Restart nginx
-sudo systemctl restart nginx
+sudo service nginx restart
 
 #http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
 #https://www.techrepublic.com/article/how-to-install-and-enable-modsecurity-with-nginx-on-ubuntu-server/
@@ -198,7 +198,65 @@ sudo echo hello > /var/www/public/index.html
 sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt --depth=1
 cd /opt/letsencrypt
 sudo git pull
-sudo /opt/letsencrypt/letsencrypt-auto certonly --rsa-key-size 4096 --webroot --webroot-path /var/www/public/ -d ctfsecurrinets.com
+
+# https://www.exratione.com/2016/06/a-simple-setup-and-installation-script-for-lets-encrypt-ssl-certificates/
+# Install the dependencies.
+sudo /opt/letsencrypt/certbot-auto --noninteractive --os-packages-only
+ 
+# Set up config file.
+mkdir -p /etc/letsencrypt
+cat > /etc/letsencrypt/cli.ini <<EOF
+# Uncomment to use the staging/testing server - avoids rate limiting.
+# server = https://acme-staging.api.letsencrypt.org/directory
+ 
+# Use a 4096 bit RSA key instead of 2048.
+rsa-key-size = 4096
+ 
+# Set email and domains.
+email = contact@securinets.com
+domains = ctfsecurinets.com
+ 
+# Text interface.
+text = True
+# No prompts.
+non-interactive = True
+# Suppress the Terms of Service agreement interaction.
+agree-tos = True
+ 
+# Use the webroot authenticator.
+authenticator = webroot
+webroot-path = /var/www/html
+EOF
+ 
+# Obtain cert.
+sudo certbot-auto certonly
+ 
+# Set up daily cron job.
+CRON_SCRIPT="/etc/cron.daily/certbot-renew"
+ 
+sudo cat > "${CRON_SCRIPT}" <<EOF
+#!/bin/bash
+#
+# Renew the Let's Encrypt certificate if it is time. It won't do anything if
+# not.
+#
+# This reads the standard /etc/letsencrypt/cli.ini.
+#
+ 
+# May or may not have HOME set, and this drops stuff into ~/.local.
+export HOME="/root"
+# PATH is never what you want it it to be in cron.
+export PATH="\${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ 
+certbot-auto --no-self-upgrade certonly
+ 
+# If the cert updated, we need to update the services using it. E.g.:
+if service --status-all | grep -Fq 'nginx'; then
+  service nginx reload
+fi
+EOF
+chmod a+x "${CRON_SCRIPT}"
+
 #https://community.letsencrypt.org/t/how-to-completely-automating-certificate-renewals-on-debian/5615
 #https://www.grafikart.fr/formations/serveur-linux/nginx-ssl-letsencrypt
 #https://neurobin.org/docs/web/fully-automated-letsencrypt-integration-with-cpanel/
