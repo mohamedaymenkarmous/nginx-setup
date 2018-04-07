@@ -142,6 +142,10 @@ sudo ./configure \
   --with-threads \
   --with-compat
 
+sudo mkdir -p /var/lib/nginx
+sudo mkdir -p /var/lib/nginx/body
+sudo mkdir -p /var/lib/nginx/fastcgi
+
 sudo make
 sudo make modules
 sudo make install
