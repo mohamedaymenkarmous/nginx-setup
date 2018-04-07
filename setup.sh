@@ -229,7 +229,7 @@ webroot-path = /var/www/html
 EOF
  
 # Obtain cert.
-sudo certbot-auto certonly
+sudo /opt/letsencrypt/certbot-auto certonly
  
 # Set up daily cron job.
 CRON_SCRIPT="/etc/cron.daily/certbot-renew"
@@ -248,7 +248,7 @@ export HOME="/root"
 # PATH is never what you want it it to be in cron.
 export PATH="\${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
  
-certbot-auto --no-self-upgrade certonly
+sudo /opt/letsencrypt/certbot-auto --no-self-upgrade certonly
  
 # If the cert updated, we need to update the services using it. E.g.:
 if service --status-all | grep -Fq 'nginx'; then
