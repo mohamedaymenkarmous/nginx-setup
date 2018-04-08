@@ -194,8 +194,10 @@ sudo echo hello > /var/www/public/index.html
 
 #apt install php-xml
 #apt install php-mysql
-#apt install mysql-server
-#apt install mysql
+sudo apt-get install mysql-server
+
+#For Symfony
+sudo apt-get install php-mysql php-xml
 #apt install mysql-client
 
 
