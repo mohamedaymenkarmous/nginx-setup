@@ -162,7 +162,7 @@ sudo wget https://www.linode.com/docs/assets/660-init-deb.sh -P /opt
 sudo mv /opt/660-init-deb.sh /etc/init.d/nginx
 sudo chmod +x /etc/init.d/nginx
 sudo /usr/sbin/update-rc.d -f nginx defaults
-sudo service nginx restart
+#sudo service nginx restart
 
 # Enable OWASP ModSecurity rules
 cd /etc/nginx/conf.d/
@@ -182,7 +182,7 @@ sudo /etc/nginx/conf.d/owasp-modsecurity-crs/util/upgrade.py --crs
 #sudo sed -i 's/#modsecurity on/modsecurity on/' /etc/nginx/sites-enabled/standard
 
 # Restart nginx
-sudo service nginx restart
+#sudo service nginx restart
 
 #http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
 #https://www.techrepublic.com/article/how-to-install-and-enable-modsecurity-with-nginx-on-ubuntu-server/
@@ -200,6 +200,10 @@ sudo apt-get install mysql-server
 sudo apt-get install php-mysql php-xml
 #apt install mysql-client
 
+# Using SSL
+
+# Stopping Nginx
+sudo service nginx stop
 
 sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt --depth=1
 cd /opt/letsencrypt
@@ -220,7 +224,7 @@ rsa-key-size = 4096
  
 # Set email and domains.
 email = contact@securinets.com
-domains = ctfsecurinets.com
+domains = ctfsecurinets.com, www.ctfsecurinets.com
  
 # Text interface.
 text = True
@@ -230,12 +234,13 @@ non-interactive = True
 agree-tos = True
  
 # Use the webroot authenticator.
-authenticator = webroot
+authenticator = standalone
+#authenticator = webroot
 webroot-path = /var/www/html
 EOF
  
 # Obtain cert.
-sudo /opt/letsencrypt/certbot-auto certonly
+sudo /opt/letsencrypt/certbot-auto certonly --expand
  
 # Set up daily cron job.
 CRON_SCRIPT="/etc/cron.daily/certbot-renew"
@@ -262,6 +267,9 @@ if service --status-all | grep -Fq 'nginx'; then
 fi
 EOF
 chmod a+x "${CRON_SCRIPT}"
+
+# Starting nginx
+sudo service nginx start
 
 #https://community.letsencrypt.org/t/how-to-completely-automating-certificate-renewals-on-debian/5615
 #https://www.grafikart.fr/formations/serveur-linux/nginx-ssl-letsencrypt
