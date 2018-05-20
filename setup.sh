@@ -1,8 +1,8 @@
 current_dir=/root
 
 sudo apt-get update
-sudo apt-get install -y net-tools git systemd python vim
-sudo apt-get install -y dialog apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev libssl-dev libxslt-dev libgd-dev libgeoip-dev libaio-dev libaio1 checkinstall libperl-dev
+sudo apt-get install -y net-tools git systemd python vim curl wget
+sudo apt-get install -y dialog apt-utils autoconf automake build-essential libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev libssl-dev libxslt-dev libgd-dev libgeoip-dev libaio-dev libaio1 checkinstall libperl-dev
 
 #https://gist.github.com/virtualadrian/732e9baf9513f47a78099a051ec5bd25
 #apt-get install \
@@ -276,5 +276,23 @@ sudo service nginx start
 #https://neurobin.org/docs/web/fully-automated-letsencrypt-integration-with-cpanel/
 #https://www.exratione.com/2016/06/a-simple-setup-and-installation-script-for-lets-encrypt-ssl-certificates/
 #https://gist.github.com/ajaegers/92318bdc81541b825c90f265f787e3c8
+
+# Angular project
+sudo mkdir -p /var/www/public/angular-project
+cd /var/www/public/angular-project
+git clone ANGULAR-PROJECT
+sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo npm install
+sudo npm install -g @angular/cli
+
+sudo cat > /root/start-angular.sh <<EOF
+#!/bin/bash
+cd /var/www/public/my-app
+nohup ng serve --host www.ctfsecurinets.com --proxy-config proxy.conf.json --base-href / 2>&1 >> /tmp/nohup-FE.out &
+EOF
+sudo chmod a+x /root/start-angular.sh
+sudo ln -s /root/start-angular.sh /usr/bin/start-angular
+
 
 #https://www.nginx.com/blog/setting-up-nginx-amplify-in-10-minutes/
