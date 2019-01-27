@@ -90,8 +90,8 @@ sudo ln -s /etc/nginx/sites-available/standard /etc/nginx/sites-enabled/standard
 
 # Download Nginx
 cd /opt
-sudo wget http://nginx.org/download/nginx-1.14.0.tar.gz
-sudo tar zxvf nginx-1.14.0.tar.gz
+sudo wget http://nginx.org/download/nginx-1.14.2.tar.gz
+sudo tar zxvf nginx-1.14.2.tar.gz
 
 # Configure and install Nginx with the specified modules
 cd nginx-[0-9]*[^a-z]
