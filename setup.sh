@@ -197,7 +197,7 @@ sudo echo hello > /var/www/public/index.html
 sudo apt-get install mysql-server
 
 #For Symfony
-sudo apt-get -y install php-mysql php-zip php-xml php-mbstring php-mongodb php-curl
+sudo apt-get -y install php-mysql php-zip php-xml php-mbstring php-mongodb php-curl php-dev
 #apt install mysql-client
 
 # Using SSL
