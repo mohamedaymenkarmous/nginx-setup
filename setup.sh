@@ -187,14 +187,19 @@ sudo /etc/nginx/conf.d/owasp-modsecurity-crs/util/upgrade.py --crs
 #http://www.crop11.com.br/wiki/instalando-nginx-com-suporte-a-pagespeed-no-debian-9-stretch/
 #https://www.techrepublic.com/article/how-to-install-and-enable-modsecurity-with-nginx-on-ubuntu-server/
 
+#Upgrade php packages (>7.0)
+sudo apt-get install apt-transport-https lsb-release ca-certificates
+sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/php.list
+sudo apt-get update 
 
 sudo apt-get install -y php-fpm
-mkdir -p /var/www/public/standard
-sudo echo hello > /var/www/public/index.html
+sudo mkdir -p /var/www/public/standard
+echo hello | sudo tee -a /var/www/public/index.html
 
 #apt install php-xml
 #apt install php-mysql
-sudo apt-get install mysql-server
+sudo apt-get install -y mysql-server
 
 #For Symfony
 sudo apt-get -y install php-mysql php-zip php-xml php-mbstring php-mongodb php-curl php-dev php-pear
