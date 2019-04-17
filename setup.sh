@@ -174,6 +174,7 @@ sudo cp owasp-modsecurity-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.
 # Enable ModSecurity main rules
 sudo cp /opt/ModSecurity/modsecurity.conf-recommended /etc/nginx/conf.d/modsecurity.conf
 sudo sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf
+sudo cp /opt/ModSecurity/unicode.mapping /etc/nginx/conf.d/
 
 # Update OWASP ModSecurity extra rules
 sudo /etc/nginx/conf.d/owasp-modsecurity-crs/util/upgrade.py --crs
