@@ -220,8 +220,8 @@ sudo git pull
 sudo /opt/letsencrypt/certbot-auto --noninteractive --os-packages-only
  
 # Set up config file.
-mkdir -p /etc/letsencrypt
-cat > /etc/letsencrypt/cli.ini <<EOF
+sudo mkdir -p /etc/letsencrypt
+sudo tee /etc/letsencrypt/cli.ini << END
 # Uncomment to use the staging/testing server - avoids rate limiting.
 # server = https://acme-staging.api.letsencrypt.org/directory
  
@@ -243,7 +243,7 @@ agree-tos = True
 authenticator = standalone
 #authenticator = webroot
 webroot-path = /var/www/html
-EOF
+END
  
 # Obtain cert.
 sudo /opt/letsencrypt/certbot-auto certonly --expand
@@ -273,7 +273,7 @@ if service --status-all | grep -Fq 'nginx'; then
   service nginx start
 fi
 EOF
-chmod a+x "${CRON_SCRIPT}"
+sudo chmod a+x "${CRON_SCRIPT}"
 
 # Starting nginx
 sudo service nginx start
