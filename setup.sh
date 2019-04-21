@@ -207,6 +207,15 @@ sudo apt-get -y install php-mysql php-zip php-xml php-mbstring php-mongodb php-c
 sudo pecl install mongodb
 #apt install mysql-client
 
+#For Mongodb
+curl https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+sudo apt-get update
+sudo apt-get install mongodb-org
+sudo systemctl enable mongod
+systemctl status mongod
+
+
 # Using SSL
 
 # Stopping Nginx
