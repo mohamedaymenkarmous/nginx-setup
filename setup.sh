@@ -90,12 +90,14 @@ sudo ln -s /etc/nginx/sites-available/standard /etc/nginx/sites-enabled/standard
 
 # Download Nginx
 cd /opt
-sudo wget http://nginx.org/download/nginx-1.14.2.tar.gz
-sudo tar zxvf nginx-1.14.2.tar.gz
+NGINX_VERSION=1.16.0
+sudo wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
+sudo tar zxvf nginx-${NGINX_VERSION}.tar.gz
 
 # Configure and install Nginx with the specified modules
-cd nginx-[0-9]*[^a-z]
+cd nginx-${NGINX_VERSION}
 sudo ./configure \
+  --modules-path=/usr/lib/nginx/modules \
   --add-dynamic-module=/opt/ModSecurity-nginx \
   --conf-path=/etc/nginx/nginx.conf \
   --error-log-path=/var/log/nginx/error.log \
@@ -139,6 +141,10 @@ sudo ./configure \
   --with-select_module \
   --with-stream \
   --with-stream_ssl_module \
+  --with-stream_realip_module \
+  --with-stream_geoip_module \
+  --with-stream_ssl_preread_module \
+  --with-http_degradation_module \
   --with-threads \
   --with-compat
 
