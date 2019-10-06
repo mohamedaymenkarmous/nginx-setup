@@ -87,6 +87,8 @@ sudo git clone https://github.com/mohamedaymenkarmous/nginx-config
 sudo cp -R nginx-config /etc/nginx
 sudo mkdir /etc/nginx/sites-enabled
 sudo ln -s /etc/nginx/sites-available/standard /etc/nginx/sites-enabled/standard
+sudo mkdir /etc/nginx/ssl
+sudo openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
 
 # Download Nginx
 cd /opt
