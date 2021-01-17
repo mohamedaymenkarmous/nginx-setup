@@ -206,23 +206,6 @@ sudo apt-get install -y php-fpm
 sudo mkdir -p /var/www/public/standard
 echo hello | sudo tee -a /var/www/public/index.html
 
-#apt install php-xml
-#apt install php-mysql
-sudo apt-get install -y mysql-server
-
-#For Symfony
-sudo apt-get -y install php-mysql php-zip php-xml php-mbstring php-mongodb php-curl php-dev php-pear
-sudo pecl install mongodb
-#apt install mysql-client
-
-#For Mongodb
-curl https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
-echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
-sudo apt-get update
-sudo apt-get install mongodb-org
-sudo systemctl enable mongod
-systemctl status mongod
-
 
 # Using SSL
 
@@ -301,23 +284,6 @@ sudo service nginx start
 #https://neurobin.org/docs/web/fully-automated-letsencrypt-integration-with-cpanel/
 #https://www.exratione.com/2016/06/a-simple-setup-and-installation-script-for-lets-encrypt-ssl-certificates/
 #https://gist.github.com/ajaegers/92318bdc81541b825c90f265f787e3c8
-
-# Angular project
-sudo mkdir -p /var/www/public/angular-project
-cd /var/www/public/angular-project
-git clone ANGULAR-PROJECT
-sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo npm install
-sudo npm install -g @angular/cli
-
-sudo cat > /root/start-angular.sh <<EOF
-#!/bin/bash
-cd /var/www/public/my-app
-nohup ng serve --host www.ctfsecurinets.com --proxy-config proxy.conf.json --base-href / 2>&1 >> /tmp/nohup-FE.out &
-EOF
-sudo chmod a+x /root/start-angular.sh
-sudo ln -s /root/start-angular.sh /usr/bin/start-angular
 
 
 #https://www.nginx.com/blog/setting-up-nginx-amplify-in-10-minutes/
